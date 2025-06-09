@@ -1,0 +1,137 @@
+# 🏁 Scraping des données de Super Mario Bros. sur Speedrun.com
+
+## Objectif
+
+Collecter de façon structurée les données clés de la page Super Mario Bros. sur [Speedrun.com](https://www.speedrun.com/smb1) pour permettre une analyse comparative de la difficulté du jeu et des performances des joueurs.
+
+---
+
+## Données à extraire
+
+### 1. Leaderboards (Classements)
+- **Catégorie** (ex: Any%, Warpless, etc.)
+- **Rang**
+- **Nom du joueur**
+- **Temps réalisé**
+- **Date**
+- **Plateforme**
+
+### 2. Guides (important)
+- **Titre du guide**
+- **Auteur**
+- **Date de publication**
+- **Lien vers le guide**
+
+### 3. Ressources
+- **Nom de la ressource**
+- **Type** (outil, script, patch, etc.)
+- **Auteur**
+- **Date de publication**
+- **Lien de téléchargement**
+
+### 4. Forums
+- **Titre du fil de discussion**
+- **Auteur**
+- **Date de la dernière activité**
+- **Nombre de réponses**
+
+### 5. Statistiques générales
+- **Nombre de followers**
+- **Nombre total de runs**
+- **Nombre de joueurs**
+
+---
+
+## Technologies recommandées
+
+- **Langage :** Python
+- **Librairies :**
+  - `requests` – Requêtes HTTP
+  - `BeautifulSoup` – Analyse HTML
+  - `pandas` – Structuration et analyse des données
+
+---
+
+## Considérations éthiques et techniques
+
+- **Respectez les [conditions d’utilisation de Speedrun.com](https://www.speedrun.com/terms).**
+- **Implémentez des délais (`time.sleep`) entre les requêtes** pour ne pas surcharger le serveur.
+- **Prévoyez la gestion des erreurs** (HTTP, parsing, changement de structure HTML).
+
+---
+
+## Exemple de structure de script Python
+
+```python
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+import time
+
+BASE_URL = "https://www.speedrun.com/smb1"
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (compatible; scraping for research; +https://github.com/...)"
+}
+
+def get_soup(url):
+    resp = requests.get(url, headers=headers)
+    resp.raise_for_status()
+    return BeautifulSoup(resp.text, "html.parser")
+
+# TODO: Fonctions pour extraire chaque section :
+# - extract_leaderboards(soup)
+# - extract_guides(soup)
+# - extract_resources(soup)
+# - extract_forums(soup)
+# - extract_stats(soup)
+
+def main():
+    soup = get_soup(BASE_URL)
+    # Extraction des données
+    # leaderboards = extract_leaderboards(soup)
+    # guides = extract_guides(soup)
+    # resources = extract_resources(soup)
+    # forums = extract_forums(soup)
+    # stats = extract_stats(soup)
+    # Sauvegarde ou analyse avec pandas
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+## Conseils pour le scraping
+
+- Inspectez le HTML pour trouver les sélecteurs CSS précis de chaque section.
+- Les leaderboards peuvent nécessiter la navigation dans des onglets ou des requêtes AJAX (utilisez `requests` ou `selenium` si nécessaire).
+- Utilisez `pandas.DataFrame` pour structurer les données.
+- Exportez les données finales au format CSV ou Excel pour l'analyse.
+
+---
+
+## Liens utiles
+
+- [Speedrun.com Super Mario Bros.](https://www.speedrun.com/smb1)
+- [Documentation BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+- [Documentation pandas](https://pandas.pydata.org/docs/)
+- [Conditions d’utilisation Speedrun.com](https://www.speedrun.com/terms)
+
+---
+
+**Contact :** _AJEANEUDES_
+
+
+
+# TODO:
+# 1. Inspecter le HTML de chaque section du site cible.
+# 2. Écrire extract_leaderboards(soup): récupère les records, joueurs, catégories, etc.
+# 3. Écrire extract_guides(soup): récupère les guides, auteurs, dates, liens.
+# 4. Écrire extract_resources(soup): idem pour ressources.
+# 5. Écrire extract_forums(soup): idem pour forums.
+# 6. Écrire extract_stats(soup): nombre de runs, followers, joueurs.
+# 7. Structurer chaque extraction dans un DataFrame pandas.
+# 8. Exporter chaque DataFrame en CSV ou Excel.
+# 9. Tester/adapter la robustesse si le HTML évolue ou si AJAX/API est utilisée.
+# 10. Documenter l’usage du script.
